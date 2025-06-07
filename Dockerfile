@@ -9,7 +9,7 @@ WORKDIR /app
 
 CMD sh -c "\
     rm -rf /app/* && \
-    git clone https://github.com/wooVDev/mini-proyecto.git /app && \
+    git clone https://github.com/Andy777456/mini-proyecto.git /app && \
     pip install -r requirements.txt && \
     python manage.py migrate && \
     python manage.py runserver localhost:8000 \
