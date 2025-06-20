@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="app-title">📝 Lista de Tareas</h1>
+
+        <form method="POST" class="task-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Título de la tarea" required class="form-input">
+            </div>
+            <div class="form-group">
+                <textarea name="description" placeholder="Descripción" class="form-textarea"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="due_date">Fecha de vencimiento:</label>
+                    <input type="datetime-local" name="due_date" id="due_date" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="author">Autor:</label>
+                    <input type="text" name="author" id="author" placeholder="Autor" class="form-input">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+        </form>
+
+        <div class="task-list">
+            {% for task in tasks %}
+            <div class="task-card {% if task.is_completed %}completed{% endif %}">
+                <form method="POST" class="task-form">
+                    {% csrf_token %}
+                    <div class="task-header">
+                        <input type="text" name="title_{{ task.id }}" value="{{ task.title }}" class="task-title-input">
+                        <div class="task-actions">
+                            <button type="submit" name="complete" value="{{ task.id }}" class="btn btn-complete">
+                                {% if task.is_completed %}✅{% else %}⬜{% endif %}
+                            </button>
+                            <button type="submit" name="delete" value="{{ task.id }}" class="btn btn-delete">🗑️</button>
+                        </div>
+                    </div>
+                    
+                    <textarea name="description_{{ task.id }}" class="task-description">{{ task.description }}</textarea>
+                    
+                    <div class="task-meta">
+                        <div class="meta-group">
+                            <label>Autor:</label>
+                            <input type="text" name="author_{{ task.id }}" value="{{ task.author|default_if_none:'' }}" class="meta-input">
+                        </div>
+                        <div class="meta-group">
+                            <label>Creada:</label>
+                            <span>{{ task.created_at|date:"d M Y H:i" }}</span>
+                        </div>
+                        {% if task.is_completed %}
+                        <div class="meta-group">
+                            <label>Completada:</label>
+                            <span>{{ task.completed_at|date:"d M Y H:i" }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="meta-group">
+                            <label>Vence:</label>
+                            <input type="datetime-local" name="due_date_{{ task.id }}" 
+                                   value="{{ task.due_date|date:'Y-m-d\TH:i' }}" class="meta-input">
+                        </div>
+                    </div>
+                    <button type="submit" name="update" value="{{ task.id }}" class="btn btn-update">Actualizar</button>
+                </form>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                🎉 No hay tareas pendientes. ¡Añade una nueva!
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

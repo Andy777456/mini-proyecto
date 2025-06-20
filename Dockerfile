@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y git
 
 WORKDIR /app
 
+COPY . .
+
 CMD sh -c "\
     rm -rf /app/* && \
     git clone https://github.com/Andy777456/mini-proyecto.git /app && \
