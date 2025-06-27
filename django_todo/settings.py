@@ -13,66 +13,81 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR es la ruta absoluta al directorio raíz de tu proyecto Django.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# ADVERTENCIA DE SEGURIDAD: ¡mantén la clave secreta utilizada en producción en secreto!
+# Esta clave se utiliza para la seguridad de Django, como la firma de cookies de sesión.
 SECRET_KEY = 'django-insecure-^96eh!&(kg@cxgg^v$-$@u5+95cgthiww9&5t8udjnt2h$7uk4'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# ADVERTENCIA DE SEGURIDAD: ¡no ejecutes con el modo de depuración activado en producción!
+# DEBUG = True activa el modo de depuración, mostrando errores detallados en el navegador.
 DEBUG = True
 
+# Lista de hosts permitidos para servir tu aplicación.
+# En producción, deberías especificar los nombres de dominio de tu sitio.
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
+# Lista de aplicaciones Django habilitadas en este proyecto.
+# Incluye aplicaciones predeterminadas de Django y tu aplicación 'tasks'.
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'tasks',
+    'django.contrib.admin',        # Interfaz de administración de Django.
+    'django.contrib.auth',         # Sistema de autenticación.
+    'django.contrib.contenttypes', # Tipos de contenido para modelos.
+    'django.contrib.sessions',     # Manejo de sesiones de usuario.
+    'django.contrib.messages',     # Framework de mensajes.
+    'django.contrib.staticfiles',  # Manejo de archivos estáticos (CSS, JS, imágenes).
+    'tasks',                       # Tu aplicación de tareas personalizada.
 ]
 
+# Lista de middleware a procesar para cada solicitud.
+# El middleware es un framework de "ganchos" de bajo nivel que procesa las solicitudes y respuestas.
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',     # Mejora la seguridad de la aplicación.
+    'django.contrib.sessions.middleware.SessionMiddleware', # Habilita el soporte de sesiones.
+    'django.middleware.common.CommonMiddleware',         # Normaliza las solicitudes (ej. añade barras al final).
+    'django.middleware.csrf.CsrfViewMiddleware',         # Protección contra ataques CSRF.
+    'django.contrib.auth.middleware.AuthenticationMiddleware', # Habilita el soporte de autenticación.
+    'django.contrib.messages.middleware.MessageMiddleware', # Habilita el soporte de mensajes.
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', # Protección contra clickjacking.
 ]
 
+# La URLconf raíz que Django usará para mapear URLs a vistas.
 ROOT_URLCONF = 'django_todo.urls'
 
+# Configuración de los motores de plantillas.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            # Context processors añaden variables al contexto de todas las plantillas.
             'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request', # Añade el objeto request al contexto.
+                'django.contrib.auth.context_processors.auth', # Añade variables relacionadas con el usuario autenticado.
+                'django.contrib.messages.context_processors.messages', # Añade mensajes al contexto.
             ],
         },
     },
 ]
 
+# La aplicación WSGI que Django usará para servir las solicitudes.
 WSGI_APPLICATION = 'django_todo.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Configuración de la base de datos.
+# Por defecto, usa SQLite, que es adecuado para desarrollo.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,17 +99,22 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
+# Validadores de contraseñas para el sistema de autenticación de Django.
 AUTH_PASSWORD_VALIDATORS = [
     {
+        # Evita contraseñas que sean demasiado similares a atributos del usuario.
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
+        # Requiere una longitud mínima para la contraseña.
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
+        # Evita contraseñas que son comúnmente usadas.
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
+        # Evita contraseñas que consisten solo en números.
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
@@ -103,8 +123,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
+# Código de idioma para esta instalación de Django.
 LANGUAGE_CODE = 'en-us'
 
+# Zona horaria para esta instalación de Django.
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -115,9 +137,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# URL para servir archivos estáticos.
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+# Tipo de campo de clave primaria por defecto para los modelos.
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

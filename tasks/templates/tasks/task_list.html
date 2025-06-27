@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Carga la etiqueta 'static' para manejar archivos estáticos como CSS. -->
     {% load static %}
     <title>Lista de Tareas</title>
+    <!-- Enlaza la hoja de estilos CSS personalizada para la aplicación. -->
     <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <!-- Enlaza la fuente 'Poppins' de Google Fonts para mejorar la tipografía. -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Contenedor principal de la aplicación. -->
     <div class="container">
+        <!-- Título principal de la aplicación. -->
         <h1 class="app-title">📝 Lista de Tareas</h1>
 
+        <!-- Formulario para agregar una nueva tarea. -->
         <form method="POST" class="task-form">
             {% csrf_token %}
             <div class="form-group">
@@ -31,10 +37,12 @@
             <button type="submit" class="btn btn-primary">Agregar Tarea</button>
         </form>
 
+        <!-- Contenedor para la lista de tareas existentes. -->
         <div class="task-list">
+            <!-- Itera sobre cada tarea pasada desde la vista. -->
             {% for task in tasks %}
             <div class="task-card {% if task.is_completed %}completed{% endif %}">
-                <form method="POST" class="task-form">
+                <form method="POST" class="task-form"> <!-- Cada tarea tiene su propio formulario para actualizar, completar o eliminar. -->
                     {% csrf_token %}
                     <div class="task-header">
                         <input type="text" name="title_{{ task.id }}" value="{{ task.title }}" class="task-title-input">
@@ -46,8 +54,10 @@
                         </div>
                     </div>
                     
+                    <!-- Campo para editar la descripción de la tarea. -->
                     <textarea name="description_{{ task.id }}" class="task-description">{{ task.description }}</textarea>
                     
+                    <!-- Metadatos de la tarea (autor, fecha de creación, fecha de completado, fecha de vencimiento). -->
                     <div class="task-meta">
                         <div class="meta-group">
                             <label>Autor:</label>
@@ -57,6 +67,7 @@
                             <label>Creada:</label>
                             <span>{{ task.created_at|date:"d M Y H:i" }}</span>
                         </div>
+                        <!-- Muestra la fecha de finalización solo si la tarea está completada. -->
                         {% if task.is_completed %}
                         <div class="meta-group">
                             <label>Completada:</label>
@@ -69,13 +80,16 @@
                                    value="{{ task.due_date|date:'Y-m-d\TH:i' }}" class="meta-input">
                         </div>
                     </div>
+                    <!-- Botón para guardar los cambios en la tarea. -->
                     <button type="submit" name="update" value="{{ task.id }}" class="btn btn-update">Actualizar</button>
                 </form>
             </div>
+            <!-- Bloque que se muestra si no hay tareas. -->
             {% empty %}
             <div class="empty-state">
                 🎉 No hay tareas pendientes. ¡Añade una nueva!
             </div>
+            <!-- Fin del bucle for. -->
             {% endfor %}
         </div>
     </div>

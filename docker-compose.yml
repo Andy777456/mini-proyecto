@@ -1,5 +1,10 @@
+# Define los servicios que componen tu aplicación.
 services:
+  # Define el servicio 'web'.
   web:
+    # Indica a Docker Compose que construya la imagen Docker usando el Dockerfile en el directorio actual.
     build: .
+    # Mapea el puerto 8000 del contenedor al puerto 8000 del host.
+    # Esto permite acceder a la aplicación desde el navegador en http://localhost:8000.
     ports:
       - "8000:8000"
